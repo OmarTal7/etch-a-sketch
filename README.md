@@ -14,3 +14,12 @@ Extra:
 5. Random color generator for each of the squares for a 'rainbow effect'.
 
 6. Implement progressive darkening effect where each interaction adds 10% more black or color to the square. (Like 'shadow')
+
+
+
+
+Things to fix/add:
+1. Fix 'mouseover' only event handler: pixels should change color when clicked and mouse
+dragged over them.
+
+2. prompt from user should be clearer: not 'how many squares', but something like (A X A) matrix. 
