@@ -1,5 +1,5 @@
 const container = document.querySelector('.container');
-let number = prompt("how many?");
+let number = prompt("What board size do you want? (e.g. type '3' for a '3x3', or '50' for a '50x50' grid)");
 let height = `${500/number}px`;
 let width = `${500/number}px`;
 

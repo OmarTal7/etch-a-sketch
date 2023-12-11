@@ -20,6 +20,6 @@ Extra:
 
 Things to fix/add:
 1. Fix 'mouseover' only event handler: pixels should change color when clicked and mouse
-dragged over them.
+dragged over them. [DONE]
 
 2. prompt from user should be clearer: not 'how many squares', but something like (A X A) matrix. 
