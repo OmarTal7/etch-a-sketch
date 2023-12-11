@@ -37,4 +37,4 @@ pixels.forEach((pixel) => {
             pixel.removeEventListener('mouseover', changeColor);
         })
     });
-})
+});
