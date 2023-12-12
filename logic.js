@@ -1,31 +1,35 @@
 const container = document.querySelector('.container');
-let number = prompt("What board size do you want? (e.g. type '3' for a '3x3', or '50' for a '50x50' grid)");
-let height = `${500/number}px`;
-let width = `${500/number}px`;
+const button = document.querySelector('button');
+let number = 16;
 
+
+function promptUser(){
+    let userNumber = prompt("What board size do you want? (e.g. type '3' for a '3x3', or '50' for a '50x50' grid)");
+    return userNumber;
+}
 
 // Generate correct number of squares for etch-a-sketch container
-let i=0;
-while(i < (number**2)){
-    const div = document.createElement('div');
-    div.classList.add('pixel');
-    container.appendChild(div);
-    i++;
-};
+function makeGrid(size){
 
+    let height = `${500/size}px`;
+    let width = `${500/size}px`;
+    let i=0;
 
-// Setting height and width attributes
-const pixels = document.querySelectorAll('.pixel');
-pixels.forEach((pixel) => {
+    while(i < (size**2)){
+        const div = document.createElement('div');
+        div.classList.add('pixel');
+        container.appendChild(div);
+        i++;
+    };
+
+    // Setting height/width attributes for grid elements
+    const pixels = document.querySelectorAll('.pixel');
+    pixels.forEach((pixel) => {
     pixel.setAttribute('style', 'height:' + height + '; width: ' + width + ';');
-});
+        });
 
-
-function changeColor(e){
-    e.target.style.background = 'black';
-};
-
-pixels.forEach((pixel) => {
+    // Event listenenrs
+    pixels.forEach((pixel) => {
     pixel.addEventListener('mousedown', () => {
         pixels.forEach((pixel) => {
             pixel.addEventListener('mouseover', changeColor);
@@ -38,3 +42,18 @@ pixels.forEach((pixel) => {
         })
     });
 });
+};
+
+
+function changeColor(e){
+    e.target.style.background = 'black';
+};
+
+makeGrid(number);
+button.addEventListener('click', () =>{
+    makeGrid(promptUser());
+});
+
+
+
+
