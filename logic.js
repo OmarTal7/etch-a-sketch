@@ -1,5 +1,6 @@
 const container = document.querySelector('.container');
 const button = document.querySelector('#refresh-button');
+const rainbowMode = document.querySelector('#rainbow-mode');
 let number = 16;
 
 
@@ -10,7 +11,7 @@ function promptUser(){
 
 
 // Generate correct number of squares for etch-a-sketch container
-function makeGrid(size){
+function makeGrid(size, randomColors){
 
     let height = `${500/size}px`;
     let width = `${500/size}px`;
@@ -29,20 +30,20 @@ function makeGrid(size){
     pixel.setAttribute('style', 'height:' + height + '; width: ' + width + ';');
         });
 
-    addEventListeners(pixels);
+    (!randomColors) ? addEventListeners(pixels, false) : addEventListeners(pixels, true);
 };
 
-function addEventListeners(pixels){
+function addEventListeners(pixels, randomColors){
     pixels.forEach((pixel) => {
         pixel.addEventListener('mousedown', () => {
             pixels.forEach((pixel) => {
-                pixel.addEventListener('mouseover', changeRandomColor);
+                (randomColors == false) ? pixel.addEventListener('mouseover', changeColor) : pixel.addEventListener('mouseover', changeRandomColor);
             })
         });
     
         pixel.addEventListener('mouseup', () => {
             pixels.forEach((pixel) => {
-                pixel.removeEventListener('mouseover', changeRandomColor);
+                (randomColors == false) ? pixel.removeEventListener('mouseover', changeColor) : pixel.removeEventListener('mouseover', changeRandomColor);
             })
         });
     });
@@ -58,8 +59,13 @@ function changeRandomColor(e){
 };
 
 makeGrid(number);
+
 button.addEventListener('click', () =>{
     makeGrid(promptUser());
+});
+
+rainbowMode.addEventListener('click', () =>{
+    makeGrid(promptUser(), true);
 });
 
 

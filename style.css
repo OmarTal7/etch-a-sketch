@@ -33,7 +33,7 @@ body{
     color: white;
 }
 
-#refresh-button{
+button{
     margin-top: 10px;
     padding: 10px;
     font-size: 20px;
