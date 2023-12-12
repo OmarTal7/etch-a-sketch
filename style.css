@@ -3,11 +3,20 @@
     margin: 0px;
 }
 
+body{
+    background-color: rgb(23, 84, 110);
+
+}
+
 #wrap{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.title{
+    font-size: 90px;
 }
 
 .container{
@@ -16,6 +25,7 @@
     width: 500px;
     display: flex;
     flex-wrap: wrap;
+    background-color: white;
 }
 
 .pixel{
@@ -23,7 +33,7 @@
     color: white;
 }
 
-button{
+#refresh-button{
     margin-top: 10px;
     padding: 10px;
     font-size: 20px;
