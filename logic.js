@@ -4,6 +4,7 @@ const rainbowMode = document.querySelector('#rainbow-mode');
 let number = 16;
 
 
+
 function promptUser(){
     let userNumber = prompt("What board size do you want? (e.g. type '3' for a '3x3', or '50' for a '50x50' grid)");
     return userNumber;
@@ -13,8 +14,8 @@ function promptUser(){
 // Generate correct number of squares for etch-a-sketch container
 function makeGrid(size, randomColors){
 
-    let height = `${500/size}px`;
-    let width = `${500/size}px`;
+    let height = `${950/size}px`;
+    let width = `${950/size}px`;
     let i=0;
 
     while(i < (size**2)){
@@ -30,10 +31,10 @@ function makeGrid(size, randomColors){
     pixel.setAttribute('style', 'height:' + height + '; width: ' + width + ';');
         });
 
-    (!randomColors) ? addEventListeners(pixels, false) : addEventListeners(pixels, true);
+    (!randomColors) ? addCustomEventListeners(pixels, false) : addCustomEventListeners(pixels, true);
 };
 
-function addEventListeners(pixels, randomColors){
+function addCustomEventListeners(pixels, randomColors){
     pixels.forEach((pixel) => {
         pixel.addEventListener('mousedown', () => {
             pixels.forEach((pixel) => {
@@ -58,6 +59,14 @@ function changeRandomColor(e){
     e.target.style.background = randomColor;
 };
 
+function toggleButton(button){
+    if (button.value == "ON"){
+        button.value = "OFF";
+    } else if (button.value == "OFF"){
+        button.value = "ON";
+    }
+};
+
 makeGrid(number);
 
 button.addEventListener('click', () =>{
@@ -65,7 +74,17 @@ button.addEventListener('click', () =>{
 });
 
 rainbowMode.addEventListener('click', () =>{
-    makeGrid(promptUser(), true);
+    let pixels = document.querySelectorAll('.pixel');
+
+    if(rainbowMode.value == "OFF"){
+        toggleButton(rainbowMode);
+        console.log(rainbowMode.value);
+        addCustomEventListeners(pixels, true);
+    } else if(rainbowMode.value == "ON"){
+        toggleButton(rainbowMode);
+        console.log(rainbowMode.value);
+        addCustomEventListeners(pixels, false);
+    }
 });
 
 
