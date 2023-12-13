@@ -1,110 +1,96 @@
-const container = document.querySelector('.container');
-const button = document.querySelector('#refresh-button');
-const rainbowMode = document.querySelector('#rainbow-mode');
-let number = 16;
-let gridParts = []; 
-let toggle = false;
+const container = document.querySelector(".container");
+const rainbowMode = document.querySelector("#rainbow-mode");
+let gridParts = [];
+let isDrawing = false;
+let isRainbowMode = false;
 
+function promptUser() {
+  let userNumber = prompt(
+    "What board size do you want? (e.g. type '3' for a '3x3', or '50' for a '50x50' grid)"
+  );
+  return userNumber;
+}
 
-function promptUser(){
-    let userNumber = prompt("What board size do you want? (e.g. type '3' for a '3x3', or '50' for a '50x50' grid)");
-    return userNumber;
-};
+function makeGrid(size) {
+  let height = `${600 / size}px`;
+  let width = `${600 / size}px`;
 
-// Generate correct number of squares for etch-a-sketch container
-function makeGrid(size){
+  for (let i = 0; i < size ** 2; i++) {
+    const div = document.createElement("div");
+    div.classList.add("pixel");
+    div.setAttribute("style", `height: ${height}; width: ${width};`);
+    container.appendChild(div);
+  }
 
-    let height = `${600/size}px`;
-    let width = `${600/size}px`;
-    let i=0;
+  gridParts = document.querySelectorAll(".pixel");
+}
 
-    while(i < (size**2)){
-        const div = document.createElement('div');
-        div.classList.add('pixel');
-        div.setAttribute('style', 'height:' + height + '; width: ' + width + ';');
-        container.appendChild(div);
-        i++;
-    };
+function refreshGrid() {
+  container.innerHTML = "";
+  makeGrid(16);
+  if (isRainbowMode) {
+    activateRainbowMode();
+  } else {
+    activateBlackMode();
+  }
+}
 
-    gridParts = document.querySelectorAll('.pixel');
-};
-
-function refreshGrid(){
-    gridParts.forEach((part) => {
-        part.replaceWith(part.cloneNode(true))
-    })
-};
-
-function blackCo(e){
-    e.target.style.backgroundColor = 'black';
-};
-
-function rainboCo(e){
-    let randomHash = "#" + Math.floor(Math.random() * 16777215).toString(16);
-    e.target.style.backgroundColor = randomHash;
-};
-
-function colorBlack(){
-    gridParts.forEach((part) => {
-    
-        part.addEventListener('mousedown', () =>{
-            gridParts.forEach((part) => {
-                part.addEventListener('mouseover', blackCo)
-                });
-            });
-        
-
-        part.addEventListener('mouseup', () => {
-            gridParts.forEach((part) => {
-                part.removeEventListener('mouseover', blackCo);               
-            });
-        });
+function activateBlackMode() {
+  gridParts.forEach((part) => {
+    part.removeEventListener("mousemove", rainbowCo);
+    part.addEventListener("mousedown", () => {
+      isDrawing = true;
     });
-}; 
-
-function colorRainbow(){
-    gridParts.forEach((part) => {
-    
-        part.addEventListener('mousedown', () =>{
-            gridParts.forEach((part) => {
-                part.addEventListener('mouseover', rainboCo)
-                });
-            });
-        
-
-        part.addEventListener('mouseup', () => {
-            gridParts.forEach((part) => {
-                part.removeEventListener('mouseover', rainboCo);               
-            });
-        });
+    part.addEventListener("mouseup", () => {
+      isDrawing = false;
     });
-}; 
+    part.addEventListener("mousemove", (e) => {
+      if (isDrawing) {
+        blackCo(e);
+      }
+    });
+  });
+}
+
+function activateRainbowMode() {
+  gridParts.forEach((part) => {
+    part.removeEventListener("mousemove", blackCo);
+    part.addEventListener("mousedown", () => {
+      isDrawing = true;
+    });
+    part.addEventListener("mouseup", () => {
+      isDrawing = false;
+    });
+    part.addEventListener("mousemove", (e) => {
+      if (isDrawing) {
+        rainbowCo(e);
+      }
+    });
+  });
+}
+
+function blackCo(e) {
+  e.target.style.backgroundColor = "black";
+}
+
+function rainbowCo(e) {
+  let randomHash = "#" + Math.floor(Math.random() * 16777215).toString(16);
+  e.target.style.backgroundColor = randomHash;
+}
+
+function toggleMode() {
+  if (isRainbowMode) {
+    isRainbowMode = false;
+    activateBlackMode();
+  } else {
+    isRainbowMode = true;
+    activateRainbowMode();
+  }
+}
 
 makeGrid(16);
-colorBlack();
+activateBlackMode();
 
-
-rainbowMode.addEventListener('click', () =>{
-    if(!toggle){
-        toggle = true;
-        console.log(toggle)
-        refreshGrid();
-        colorRainbow();
-    } else{
-        toggle = false;
-        console.log(toggle)
-        refreshGrid();
-        colorBlack();
-    }
-})
-
-
-
-
-
-
-
-
-
-
-
+rainbowMode.addEventListener("click", () => {
+  toggleMode();
+});
