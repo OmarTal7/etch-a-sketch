@@ -28,27 +28,32 @@ function makeGrid(size){
     gridParts = document.querySelectorAll('.pixel');
 };
 
+
+
 function colorBlack(){
     gridParts.forEach((part) => {
-        part.addEventListener('mouseover', () =>{
-            part.style.background = 'black';
-        })
+        
+        part.addEventListener('mousedown', () =>{
+            gridParts.forEach((part) => {
+                part.addEventListener('mouseover', blackCo)
+                });
+            });
+        
+
+        part.addEventListener('mouseup', () => {
+            gridParts.forEach((part) => {
+                part.removeEventListener('mouseover', blackCo);               
+            });
+        });
     });
-};
+}; 
 
-function drawBlack(){
-    gridParts.forEach((part) =>{
-        part.addEventListener('mousedown', colorBlack);
+function blackCo(){
+    part.style.backgroundcolor = 'black';
+}
 
-        part.addEventListener('mouseup', ()=> {
-            part.removeEventListener('mousedown', colorBlack);
-        })
-    });
-};
-
-
-makeGrid(40);
-drawBlack();
+makeGrid(16);
+colorBlack();
 
 
 
